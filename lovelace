@@ -1,0 +1,92 @@
+{
+    "version": 1,
+    "minor_version": 1,
+    "key": "lovelace",
+    "data": {
+        "config": {
+            "title": "Dashboard",
+            "views": [
+                {
+                    "path": "dashboard",
+                    "title": "ESP-Sensor",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "binary_sensor.rpi_power_status"
+                                },
+                                {
+                                    "entity": "binary_sensor.updater"
+                                },
+                                {
+                                    "entity": "sensor.hacs"
+                                }
+                            ],
+                            "title": "Home Assistant Status"
+                        },
+                        {
+                            "type": "vertical-stack",
+                            "cards": [
+                                {
+                                    "type": "glance",
+                                    "entities": [
+                                        {
+                                            "entity": "binary_sensor.esp_status",
+                                            "name": "Status"
+                                        },
+                                        {
+                                            "entity": "sensor.eps_betriebszeit",
+                                            "name": "Betriebszeit"
+                                        },
+                                        {
+                                            "entity": "sensor.esp_ip_adresse",
+                                            "name": "IP-Adresse"
+                                        },
+                                        {
+                                            "entity": "sensor.wifi_signalstarke",
+                                            "name": "Signalst\u00e4rke"
+                                        }
+                                    ],
+                                    "title": "ESP Statusdaten",
+                                    "show_name": true,
+                                    "columns": 4,
+                                    "show_state": true,
+                                    "show_icon": true,
+                                    "state_color": true
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.weather_aussentemperatur",
+                                            "graph": "line",
+                                            "hours_to_show": 12,
+                                            "name": "Aussen"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.esp_temperatur",
+                                            "graph": "line",
+                                            "hours_to_show": 12,
+                                            "name": "Innen"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.esp_feuchtigkeit",
+                                            "graph": "line",
+                                            "hours_to_show": 12,
+                                            "name": "Feuchtigkeit"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

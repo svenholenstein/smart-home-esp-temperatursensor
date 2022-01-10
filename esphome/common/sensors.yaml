@@ -1,0 +1,61 @@
+# Verschiedene Daten von ESP an HA senden
+text_sensor:
+  - platform: template
+    name: EPS-Betriebszeit
+    id: uptime_human
+    icon: mdi:clock-start
+    
+  - platform: wifi_info
+    ip_address:
+      name: ESP-IP-Adresse
+      id: esp_ip
+
+#SENSOREN
+sensor:  
+# BME280 Temperatursensor  
+  - platform: bme280
+    temperature:
+      name: "ESP-Temperatur"
+      id: bme280_temperature
+      oversampling: 16x
+    humidity:
+      name: "ESP-Feuchtigkeit"
+      id: bme280_humidity
+    address: 0x76
+    update_interval: 240s 
+    iir_filter: 4x 
+    
+# Außentemperatursensor von HA holen
+  - platform: homeassistant
+    id: HA_temperatur_aussen
+    entity_id: sensor.weather_aussentemperatur
+
+# WLAN-Signalstärke
+  - platform: wifi_signal
+    name: "ESP-Signalstärke"
+    update_interval: 60s
+    id: esp_signal
+
+# Uptime des ESP auslesen und menschenlesbar formatieren
+  - platform: uptime
+    name: Uptime ESP8266
+    id: esp_uptime
+    update_interval: 60s
+    on_raw_value:
+      then:
+        - text_sensor.template.publish:
+            id: uptime_human
+            state: !lambda |-
+              int seconds = round(id(esp_uptime).raw_state);
+              int days = seconds / (24 * 3600);
+              seconds = seconds % (24 * 3600);
+              int hours = seconds / 3600;
+              seconds = seconds % 3600;
+              int minutes = seconds /  60;
+              seconds = seconds % 60;
+              return (
+                (days ? String(days) + "d " : "") +
+                (hours ? String(hours) + "h " : "") +
+                (minutes ? String(minutes) + "m " : "") +
+                (String(seconds) + "s")
+              ).c_str();

@@ -1,0 +1,21 @@
+substitutions:
+  node_name: esp8266
+
+packages:
+  wifi: !include common/wifi.yaml
+  device_base: !include common/device_base.yaml
+  sensors: !include common/sensors.yaml
+  fonts: !include common/fonts.yaml
+  display: !include common/display.yaml
+  
+# Uhrzeit HA
+time:
+  - platform: homeassistant
+    id: homeassistant_time  
+    
+# Intervall für Display Seitenwechsel
+interval:
+  - interval: 10s
+    then:
+      - display.page.show_next: display_oled
+      - component.update: display_oled

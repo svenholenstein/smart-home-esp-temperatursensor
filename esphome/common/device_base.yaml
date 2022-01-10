@@ -1,0 +1,29 @@
+esphome:
+  name: esp8266
+
+esp8266:
+  board: nodemcuv2
+
+# ausschalten (RX/TX)
+logger:
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: !secret ota_password
+
+captive_portal:
+
+# I2C BME280 Sensor initialisieren
+i2c:
+  sda: D2
+  scl: D1
+  scan: true
+  id: bus_a
+  
+# Verbindungs-Status vom ESP an HA senden
+binary_sensor:
+  - platform: status
+    name: "ESP-Status"

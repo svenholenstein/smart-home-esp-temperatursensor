@@ -1,0 +1,44 @@
+display:
+# OLED Display Konfig  
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    id: display_oled
+    address: 0x3C
+    pages:        
+      - id: page1
+        lambda: |-
+          it.print(2, 0, id(font_a), "INFO"); 
+          it.print(2, 8, id(font_a), "_________________"); 
+          it.printf(5, 18, id(font_a), "Up:%s", id(uptime_human).state.c_str()); 
+          it.printf(5, 30, id(font_a), "%s", id(esp_ip).state.c_str()); 
+          it.printf(5, 42, id(font_a), "WLAN: %.0f dBm", id(esp_signal).state);
+          it.strftime(5, 54, id(font_a), "%H:%M-%d.%m.%y", id(homeassistant_time).now());
+
+      - id: page2
+        lambda: |-
+          it.print(2, 0, id(font_a), "MESSUNG"); 
+          it.print(2, 8, id(font_a), "_________________"); 
+          it.print(14, 28, id(icon_small), TextAlign::CENTER, "\U000F050F");  
+          it.printf(28, 18, id(font_a), "Innen: %.1f", id(bme280_temperature).state);
+          it.printf(28, 30, id(font_a), "Aussen: %.1f", id(HA_temperatur_aussen).state);
+          it.print(98, 22, id(icon_font), TextAlign::CENTER, "\U000F0504");
+          it.print(98, 34, id(icon_font), TextAlign::CENTER, "\U000F0504");
+          it.print(14, 52, id(icon_small), TextAlign::CENTER, "\U000F1855");  
+          it.printf(28, 50, id(font_a), "%.1f", id(bme280_humidity).state);    
+          it.print(60, 54, id(icon_font), TextAlign::CENTER, "\U000F03F0");
+          
+      - id: page3
+        lambda: |-
+          if ((id(bme280_humidity).state < 40)) {
+            it.print(64, 32, id(icon_big), TextAlign::CENTER, "\U000F1434");
+          }
+          
+          if ((id(bme280_humidity).state >= 40) and (id(bme280_humidity).state < 60) and (id(bme280_temperature).state < 20))    {
+            it.print(64, 32, id(icon_big), TextAlign::CENTER, "\U000F06DE"); 
+          } 
+          if ((id(bme280_humidity).state >= 40) and (id(bme280_humidity).state < 60) and (id(bme280_temperature).state >= 20))    {
+            it.print(64, 32, id(icon_big), TextAlign::CENTER, "\U000F02D1"); 
+          }  
+          if ((id(bme280_humidity).state >= 60))    {
+            it.print(64, 32, id(icon_big), TextAlign::CENTER, "\U000F1434");
+          }   

@@ -1,0 +1,31 @@
+# Display-Fonts definieren
+font:
+  - file: "display/fonts/hd44780.ttf"
+    id: font_a
+    size: 8
+    
+  - file: "display/fonts/VCR_OSD_MONO.ttf"
+    id: font_b
+    size: 20
+    
+  - file: 'display/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font
+    size: 10
+    glyphs:
+      - "\U000F03F0" # mdi-percent
+      - "\U000F0504" # mdi-temperature-celsius
+      
+  - file: 'display/fonts/materialdesignicons-webfont.ttf'
+    id: icon_small
+    size: 20
+    glyphs:
+      - "\U000F050F" # mdi-thermometer
+      - "\U000F1855" # mdi-water-opacity
+      
+  - file: 'display/fonts/materialdesignicons-webfont.ttf'
+    id: icon_big
+    size: 70
+    glyphs:
+      - "\U000F02D1" # mdi-mdi-heart
+      - "\U000F06DE" # mdi-heart-half-full
+      - "\U000F1434" # mdi-heart-off-outline
